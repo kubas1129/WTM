@@ -40,6 +40,19 @@ class ViewController: UIViewController {
         parseJSON(date:now)
     }
     
+    func UpdateImage(imgInfo: String){
+        var tempUrl = URL(string: "https://www.metaweather.com/static/img/weather/png/64/\(imgInfo)")
+        
+        URLSession.shared.dataTask(with: tempUrl!){
+            data,resp,err in
+            DispatchQueue.main.async {
+                let img = UIImage(data: data!)
+                //Updating image
+                self.weatherImg.image =  image
+            }
+        }
+    }
+    
     
     func parseJSON(date: Date) {
         let strDate = form.string(from: date)
