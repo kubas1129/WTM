@@ -51,10 +51,11 @@ class ViewController: UIViewController {
         form.dateFormat = dtForm
         parseJSON(date:now)
     }
-    
+        
     
     func updateImage(imgInfo: String){
-        let tempUrl = URL(string: "https://www.metaweather.com/static/img/weather/png/64/\(imgInfo)")
+        let icons = "https://www.metaweather.com/static/img/weather/png/64/"
+        let tempUrl = URL(string:"\(icons)\(imgInfo).png")
         
         URLSession.shared.dataTask(with: tempUrl!){
             data,resp,err in
