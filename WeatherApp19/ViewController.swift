@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     var url = "https://www.metaweather.com/api/location/44418/"
     let dtForm = "yyy/MM/dd"
     var actualDay = 0
+    let maxDayLookup = 5
     var now = Date()
     
     struct WeatherInfo{
@@ -40,8 +41,6 @@ class ViewController: UIViewController {
     }
     
 
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         initSetup()
@@ -51,7 +50,35 @@ class ViewController: UIViewController {
         form.dateFormat = dtForm
         parseJSON(date:now)
     }
-        
+    
+    @IBAction func onPrevButton(_ sender: Any) {
+        if(actualDay > -maxDayLookup)
+        {
+            nextButton.isEnabled = true
+            actualDay -= 1
+            let updatedDate = Calendar.current.date(byAdding: .day, value: actualDay, to: now) ?? now
+            parseJSON(date: updatedDate)
+        }
+        else
+        {
+            prevButton.isEnabled = false
+        }
+    }
+    
+    @IBAction func onNextButton(_ sender: Any) {
+        if (actualDay < maxDayLookup)
+        {
+            prevButton.isEnabled = true
+            actualDay += 1
+            let updatedDate = Calendar.current.date(byAdding: .day, value: actualDay, to: now) ?? now
+            parseJSON(date: updatedDate)
+        }
+        else
+        {
+            nextButton.isEnabled = false
+        }
+    }
+    
     
     func updateImage(imgInfo: String){
         let icons = "https://www.metaweather.com/static/img/weather/png/64/"
@@ -64,7 +91,7 @@ class ViewController: UIViewController {
                 //Updating image
                 self.weatherImage.image =  img
             }
-        }
+        }.resume()
     }
     
     
